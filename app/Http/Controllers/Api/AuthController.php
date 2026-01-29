@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
@@ -10,11 +10,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
-class AuthController extends Controller
+class AuthController
 {
     public function register(RegisterRequest $request): JsonResponse
     {
-        /** @var array{name: string, email: string, password: string} $data */
         $data = $request->validated();
 
         $user = User::create([
@@ -34,7 +33,6 @@ class AuthController extends Controller
 
     public function login(LoginRequest $request): JsonResponse
     {
-        /** @var array{name: string, email: string, password: string} $data */
         $data = $request->validated();
 
         if (!Auth::attempt($data)) {
@@ -56,7 +54,7 @@ class AuthController extends Controller
 
     public function logout(Request $request): JsonResponse
     {
-        $request->user()?->currentAccessToken()?->delete();
+        $request->user()->currentAccessToken()->delete();
 
         return response()->json([
             'message' => 'Успешный выход из профиля'
