@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Team;
+namespace App\Http\Requests\Task;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreRequest extends FormRequest
+class IndexRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,9 +22,8 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'organization_id' => 'required|numeric|exists:organizations,id'
+            'title' => 'nullable|string|max:255',
+            'limit' => 'nullable|numeric|max:50'
         ];
     }
 }

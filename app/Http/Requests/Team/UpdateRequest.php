@@ -24,7 +24,7 @@ class UpdateRequest extends FormRequest
         return [
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'organization_id' => 'nullable|numeric'
+            'organization_id' => 'required|numeric|exists:organizations,id'
         ];
     }
 }

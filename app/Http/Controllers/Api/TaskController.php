@@ -5,14 +5,14 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
-use App\Http\Resources\TeamResource;
-use App\Services\TeamService;
+use App\Http\Resources\TaskResource;
+use App\Services\TaskService;
 
-class TeamController extends Controller
+class TaskController extends Controller
 {
-    public function __construct(private TeamService $service) {}
+    public function __construct(private TaskService $service) {}
 
-    public function index(\App\Http\Requests\Team\IndexRequest  $request): JsonResponse
+    public function index(\App\Http\Requests\Task\IndexRequest  $request): JsonResponse
     {
         $collection = $this->service->findBy($request->limit ?? 15);
 
@@ -23,7 +23,7 @@ class TeamController extends Controller
         return response()
             ->json(array_merge(
                 [
-                    'data' => TeamResource::collection($collection)
+                    'data' => TaskResource::collection($collection)
                 ],
                 $this->formatMetaData($collection)
             ), Response::HTTP_OK);
@@ -34,12 +34,12 @@ class TeamController extends Controller
         $data = $this->service->findById((int) $id);
 
         return response()->json(
-            new TeamResource($data),
+            new TaskResource($data),
             Response::HTTP_OK
         );
     }
 
-    public function store(\App\Http\Requests\Team\StoreRequest $request): JsonResponse
+    public function store(\App\Http\Requests\Task\StoreRequest $request): JsonResponse
     {
         return response()->json(
             $this->service->create($request->validated()),
@@ -47,7 +47,7 @@ class TeamController extends Controller
         );
     }
 
-    public function update(\App\Http\Requests\Team\UpdateRequest $request, string $id): JsonResponse
+    public function update(\App\Http\Requests\Task\UpdateRequest $request, string $id): JsonResponse
     {
         return response()->json(
             $this->service->update((int) $id, $request->validated()),
